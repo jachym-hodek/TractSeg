@@ -67,8 +67,10 @@ if __name__ == '__main__':
     tracking_format = "trk"
 
     ref_img = nib.load(ref_img_path)
+    ref_shape = ref_img.shape[:3]
     ref_affine = ref_img.affine
-    ref_shape = ref_img.get_fdata().shape
+
+    
 
     if tracking_format == "trk_legacy":
         from nibabel import trackvis
@@ -84,7 +86,11 @@ if __name__ == '__main__':
 
     # Remember: Does not count if a fibers has no node inside of a voxel -> upsampling helps, but not perfect
     # Counts the number of unique streamlines that pass through each voxel -> oversampling does not distort result
-    dm = utils_trk.density_map(streamlines, ref_shape, affine=ref_affine)
+    dm = utils_trk.density_map(
+        streamlines,
+        vol_dims=ref_shape,
+        affine=ref_affine,   # nibabel gives voxel→world (mm); DIPY handles it correctly
+    )
 
     # Create Binary Map
     dm_binary = dm > 0  # Using higher Threshold problematic, because tends to remove valid parts (sparse fibers)
