@@ -1,4 +1,3 @@
-
 from __future__ import absolute_import
 from __future__ import division
 from __future__ import print_function
@@ -387,17 +386,24 @@ def get_cv_fold(fold, dataset="HCP"):
 
         subjects = get_all_subjects(dataset)
 
+        # For full HCP datasets we split into chunks (folds) of size 21.
+        # For small example datasets (e.g. 5 subjects) treat subjects as flat list
+        # so the predefined fold index sets [0,1,2],[3],[4] refer to subject indices.
         if dataset.startswith("HCP"):
-            subjects = list(utils.chunks(subjects, 21))   #5 folds a 21 subjects
-            # 5 fold CV ok (score only 1%-point worse than 10 folds (80 vs 60 train subjects) (10 Fold CV impractical!)
+            if len(subjects) >= 21:
+                subjects = list(utils.chunks(subjects, 21))   # 5 folds of 21 subjects
+                subjects = np.array(subjects)
+                return list(subjects[train].flatten()), list(subjects[validate].flatten()), list(subjects[test].flatten())
+            else:
+                # small HCP-like dataset: use fold indices directly on flat list
+                return [subjects[i] for i in train], [subjects[i] for i in validate], [subjects[i] for i in test]
         elif dataset.startswith("Schizo"):
             # ~410 subjects
             subjects = list(utils.chunks(subjects, 82))  # 5 folds a 82 subjects
+            subjects = np.array(subjects)
+            return list(subjects[train].flatten()), list(subjects[validate].flatten()), list(subjects[test].flatten())
         else:
             raise ValueError("Invalid dataset name")
-
-        subjects = np.array(subjects)
-        return list(subjects[train].flatten()), list(subjects[validate].flatten()), list(subjects[test].flatten())
 
 
 def scale_input_to_unet_shape(img4d, dataset, resolution="1.25mm"):
