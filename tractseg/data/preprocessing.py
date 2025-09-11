@@ -21,8 +21,8 @@ from tractseg.libs import exp_utils
 
 
 #todo: adapt
-dataset = "HCP_final"
-DATASET_FOLDER = "HCP_for_training_COPY"  # source folder
+dataset = "my"
+DATASET_FOLDER = "HCP"  # source folder
 DATASET_FOLDER_PREPROC = "HCP_preproc"  # target folder
 
 # dataset = "HCP_all"
@@ -40,7 +40,7 @@ def create_preprocessed_files(subject):
     check_for_existing_files = False
 
     # Estimate bounding box from this file and then apply it to all other files
-    bb_file = "12g_125mm_peaks"
+    bb_file = "mrtrix_peaks"
     # bb_file = "105g_2mm_bedpostx_peaks_scaled"
     # bb_file = "270g_125mm_peaks"
 
@@ -59,14 +59,17 @@ def create_preprocessed_files(subject):
     #                   "32g_125mm_bedpostx_peaks_scaled", "270g_125mm_bedpostx_peaks_scaled"]
     # filenames_seg = ["bundle_masks_xtract_dm", "bundle_masks_xtract_thr001"]
 
-    filenames_data = ["12g_125mm_raw32g", "270g_125mm_raw32g"]
-    filenames_seg = []
+    filenames_data = ["mrtrix_peaks"]
+    filenames_seg = ["bundle_masks"]
 
-
-    print("idx: {}".format(subjects.index(subject)))
+    # index lookup not required in normal runs
     exp_utils.make_dir(join(C.DATA_PATH, DATASET_FOLDER_PREPROC, subject))
 
-    bb_file_path = join(C.NETWORK_DRIVE, DATASET_FOLDER, subject, bb_file + ".nii.gz")
+    # choose correct source base (NETWORK_DRIVE or local DATA_PATH)
+    base_src = C.NETWORK_DRIVE
+    if not os.path.exists(join(base_src, DATASET_FOLDER)):
+        base_src = C.DATA_PATH
+    bb_file_path = join(base_src, DATASET_FOLDER, subject, bb_file + ".nii.gz")
     if not os.path.exists(bb_file_path):
         print("Missing file: {}-{}".format(subject, bb_file))
         raise IOError("File missing")
@@ -76,7 +79,7 @@ def create_preprocessed_files(subject):
     _, _, bbox, _ = data_utils.crop_to_nonzero(np.nan_to_num(data))
 
     for idx, filename in enumerate(filenames_data):
-        path_src = join(C.NETWORK_DRIVE, DATASET_FOLDER, subject, filename + ".nii.gz")
+        path_src = join(base_src, DATASET_FOLDER, subject, filename + ".nii.gz")
         path_target = join(C.DATA_PATH, DATASET_FOLDER_PREPROC, subject, filename + ".nii.gz")
         if os.path.exists(path_target) and check_for_existing_files:
             print("Already done: {} - {}".format(subject, filename))
@@ -99,7 +102,7 @@ def create_preprocessed_files(subject):
             raise IOError("File missing")
 
     for idx, filename in enumerate(filenames_seg):
-        path_src = join(C.NETWORK_DRIVE, DATASET_FOLDER, subject, filename + ".nii.gz")
+        path_src = join(base_src, DATASET_FOLDER, subject, filename + ".nii.gz")
         path_target = join(C.DATA_PATH, DATASET_FOLDER_PREPROC, subject, filename + ".nii.gz")
         if os.path.exists(path_target) and check_for_existing_files:
             print("Already done: {} - {}".format(subject, filename))
@@ -117,6 +120,12 @@ def create_preprocessed_files(subject):
 if __name__ == "__main__":
     print("Output folder: {}".format(DATASET_FOLDER_PREPROC))
     subjects = get_all_subjects(dataset=dataset)
+
+    # If get_all_subjects returns the wrong list you can force the known list:
+    # from tractseg.data.subjects import all_subjects_FINAL
+    # subjects = all_subjects_FINAL
+    # print("DEBUG: forcing subjects to:", subjects)
+
     Parallel(n_jobs=12)(delayed(create_preprocessed_files)(subject) for subject in subjects)
     # for subject in subjects:
     #     create_preprocessed_files(subject)

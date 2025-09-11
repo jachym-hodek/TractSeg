@@ -27,7 +27,7 @@ class Config:
     NR_OF_CLASSES = len(dataset_specific_utils.get_bundle_names(CLASSES)[1:])
     INPUT_DIM = None  # autofilled
     DATASET = "HCP"  # HCP | HCP_32g | Schizo
-    RESOLUTION = "1.25mm"  # 1.25mm|2.5mm
+    RESOLUTION = "2.5mm"  # 1.25mm|2.5mm
     # 12g90g270g | 270g_125mm_xyz | 270g_125mm_peaks | 90g_125mm_peaks | 32g_25mm_peaks | 32g_25mm_xyz
     FEATURES_FILENAME = "12g90g270g"
     LABELS_FILENAME = ""  # autofilled

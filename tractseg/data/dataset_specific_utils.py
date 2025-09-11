@@ -258,13 +258,13 @@ def get_labels_filename(Config):
 
     elif Config.CLASSES == "All" and Config.EXPERIMENT_TYPE == "tract_segmentation":
         if Config.RESOLUTION == "1.25mm":
-            Config.LABELS_FILENAME = "bundle_masks_72"
+            Config.LABELS_FILENAME = "bundle_masks"
         elif Config.RESOLUTION == "2mm" and Config.DATASET == "Schizo":
-            Config.LABELS_FILENAME = "bundle_masks_72"
+            Config.LABELS_FILENAME = "bundle_masks"
         # else:
         #     Config.LABELS_FILENAME = "bundle_masks_72_808080"
         else:
-            Config.LABELS_FILENAME = "bundle_masks_72"
+            Config.LABELS_FILENAME = "bundle_masks"
 
     elif (Config.CLASSES == "AutoPTX" or Config.CLASSES == "AutoPTX_42") and \
             Config.EXPERIMENT_TYPE == "tract_segmentation":
