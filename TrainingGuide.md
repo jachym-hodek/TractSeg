@@ -57,7 +57,7 @@ NOTE: tractseg expects one of two resolutions: 1.25mm and 2.5mm, which exactly i
 
  1. change FEATURES_FILENAME to match the name of your peaks file (my peaks fike is "mrtrix_peaks.nii.gz" so here I put "mrtrix_peaks")
 
- (2. if you previously changed the name of preprocessing output folder - wchich I don't recommend - change DATASET_FOLDER to match that)
+ 2. if you previously changed the name of preprocessing output folder - wchich I don't recommend - change DATASET_FOLDER to match that
 
 
 # Adapting dataset_specific_utils.py and Config class
@@ -80,11 +80,13 @@ NOTE: You'll need to edit: get_labels_filename(), get_bundle_names(), get_dwi_af
 
 
 
-# FINAL NOTE: Before running everything, I recommend checking the Config class in base.py again, so all the variables are set correctly
+### FINAL NOTE: Before running everything, I recommend checking the Config class in base.py again, so all the variables are set correctly
 
 
-### RUNNING THE TRAINING
-# Now is the point in which you should uninstall and install TractSeg again
+## RUNNING THE TRAINING
+ Now is the point in which you should uninstall and install TractSeg again
 
-# run
+run
+```sh
 ExpRunner --config my_custom_experiment
+```
