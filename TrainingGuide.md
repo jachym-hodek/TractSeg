@@ -18,7 +18,9 @@ NOTE: At the end, in this directory will also be located I. Directory with prepr
  3. Edit "network_dir" to be the same as "woring_dir", but including the path to "HCP_for_training_COPY" (the path should be "network_dir"/HCP_for_training_COPY/[subject_id]/[nifti files])
 
 NOTE: all nifti files containing the same type of data must have the exactly same names, e.g., my peak files of each subject are called "mrtrix_peaks.nii.gz"
+
 NOTE: each subject dir must contain 2 nifti files, I. All 3D bundle masks that you want TractSeg to be trained on (I don't know if including the ones already trained will produce better result, but I would do that) stacked into 4D file
+
 NOTE: tractseg expects one of two resolutions: 1.25mm and 2.5mm, which exactly it is depends on what you set in Config class located in "TractSeg/tractseg/experiments/base.py"
 
 
