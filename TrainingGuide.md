@@ -82,7 +82,7 @@ NOTE: You'll need to edit: get_labels_filename(), get_bundle_names(), get_dwi_af
 
 
 
-### FINAL NOTE: Before running everything, I recommend checking the Config class in base.py again, so all the variables are set correctly
+### FINAL NOTE: Before running everything, I recommend checking the Config class in base.py again, so all the variables are set correctly and make sure that .tractseg folder is in your home - "~" - directory
 
 
 ## RUNNING THE TRAINING
