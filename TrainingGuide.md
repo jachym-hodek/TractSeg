@@ -8,21 +8,36 @@ Before doing anything, you should activate the TractSeg venv
 If the codes at any point don't work, first check if you haven't installed TractSeg separately and the scripts aren't trying to get data from files you aren't actively editing
 
 ## Setup
+0. Install TractSeg from local source:
+```sh
+git clone https://github.com/MIC-DKFZ/TractSeg.git
+pip install -e TractSeg
+```
+2. Install BatchGenerators
+```sh
+git clone https://github.com/MIC-DKFZ/batchgenerators.git
+pip intall -e batchgenerators
+```
+3. Find .tractseg/ directory (it should be in your home directory), inside you should find config.txt file
+4. Edit config.txt, change "working_dir" variable to match the path to the directory containing your dataset (the path should be "working_dir"/[subjects_data_folder]/HCP_for_training_COPY/[subject_id]/[nifti_files])
 
-1. Find .tractseg/ directory (it should be in your home directory), inside you should find config.txt file
-2. Edit config.txt, change "working_dir" variable to match the path to the directory containing your dataset (the path should be "working_dir"/[subjects_data_folder]/HCP_for_training_COPY/[subject_id]/[nifti_files])
+NOTE: unless you specifically adapt for this, the script will expect the individual subject directorie to be in "HCP_for_training_COPY" directory, YOU WILL HAVE TO NAME IT LIKE THIS
+NOTE: at the end, in this directory will also be located I. Directory with preprocessed data called "HCP_preproc" containing data in format /[subject_id]/[preprocessed_nifti_files], II. training data
 
-NOTE: the script will expect the individual subject directorie to be in "HCP_for_training_COPY" directory, YOU WILL HAVE TO NAME IT LIKE THIS
-NOTE: At the end, in this directory will also be located I. Directory with preprocessed data called "HCP_preproc" containing data in format /[subject_id]/[preprocessed_nifti_files], II. 
-
- 3. Edit "network_dir" to be the same as "woring_dir", but including the path to "HCP_for_training_COPY" (the path should be "network_dir"/HCP_for_training_COPY/[subject_id]/[nifti files])
+ 4. Edit "network_dir" to be the same as "woring_dir", but including the path to "HCP_for_training_COPY" (the path should be "network_dir"/HCP_for_training_COPY/[subject_id]/[nifti files])
 
 NOTE: all nifti files containing the same type of data must have the exactly same names, e.g., my peak files of each subject are called "mrtrix_peaks.nii.gz"
 
-NOTE: each subject dir must contain 2 nifti files, I. All 3D bundle masks that you want TractSeg to be trained on (I don't know if including the ones already trained will produce better result, but I would do that) stacked into 4D file
-
 NOTE: tractseg expects one of two resolutions: 1.25mm and 2.5mm, which exactly it is depends on what you set in Config class located in "TractSeg/tractseg/experiments/base.py"
 
+NOTE: this should be the folder structure (each subject dir must contain 2 nifti files, I. All 3D bundle masks that you want TractSeg to be trained on (I don't know if including the ones already trained will produce better result, but I would do that) stacked into 4D file):
+```sh
+custom_path/HCP/subject_01/
+      '-> mrtrix_peaks.nii.gz       (mrtrix CSD peaks;  shape: [x,y,z,9])
+      '-> bundle_masks.nii.gz       (Reference bundle masks; shape: [x,y,z,nr_bundles])
+custom_path/HCP/subject_02/
+```
+      ...
 
 ## Adapting preprocessing.py 
 
