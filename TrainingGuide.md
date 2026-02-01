@@ -16,7 +16,7 @@ pip install -e TractSeg
 2. Install BatchGenerators
 ```sh
 git clone https://github.com/MIC-DKFZ/batchgenerators.git
-pip intall -e batchgenerators
+pip install -e batchgenerators
 ```
 3. Find .tractseg/ directory (it should be in your home directory), inside you should find config.txt file
 4. Edit config.txt, change "working_dir" variable to match the path to the directory containing your dataset (the path should be "working_dir"/[subjects_data_folder]/HCP_for_training_COPY/[subject_id]/[nifti_files])
