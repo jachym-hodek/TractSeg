@@ -37,7 +37,6 @@ custom_path/HCP/subject_01/
       '-> bundle_masks.nii.gz       (Reference bundle masks; shape: [x,y,z,nr_bundles])
 custom_path/HCP/subject_02/
 ```
-      ...
 
 ## Adapting preprocessing.py 
 
