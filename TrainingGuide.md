@@ -31,7 +31,7 @@ NOTE: all nifti files containing the same type of data must have the exactly sam
 NOTE: tractseg expects one of two resolutions: 1.25mm and 2.5mm, which exactly it is depends on what you set in Config class located in "TractSeg/tractseg/experiments/base.py"
 
 NOTE: this should be the folder structure (each subject dir must contain 2 nifti files, I. All 3D bundle masks that you want TractSeg to be trained on (I don't know if including the ones already trained will produce better result, but I would do that) stacked into 4D file):
-```sh
+```
 custom_path/HCP/subject_01/
       '-> mrtrix_peaks.nii.gz       (mrtrix CSD peaks;  shape: [x,y,z,9])
       '-> bundle_masks.nii.gz       (Reference bundle masks; shape: [x,y,z,nr_bundles])
