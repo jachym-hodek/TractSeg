@@ -26,4 +26,11 @@ custom_path/[training_data]/subject_01/
       '-> bundle_masks.nii.gz       (Reference bundle masks; shape: [x,y,z,nr_bundles])
 custom_path/[training_data]/subject_02/
 ```
+## Adapt preprocessing.py
+NOTE: places where adaptation is needed are marked by todo:adapt
 
+```py
+dataset = "cing"
+DATASET_FOLDER = "[training_data]"  # source folder
+DATASET_FOLDER_PREPROC = "[training_data_preproc]"  # target folder
+```
