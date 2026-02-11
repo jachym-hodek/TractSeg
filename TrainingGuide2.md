@@ -103,12 +103,12 @@ if Config.CLASSES == "cing" and Config.EXPERIMENT_TYPE == "tract_segmentation": 
         return Config
 ```
 3. edit get_cv_fold()
-NOTE: this function divides the dataset into folds for training, validation and testing
-- add elif fork to if dataset.startswith("HCP"):
+NOTE: this function divides the dataset into folds for training, validation and testing, this specific version will work only for >20 subjects, for less subjects you will have to use another method of separation
 ```py
 elif dataset == "|your_dataset_name|":
-            subjects = np.array_split(subjects, 5)
-            subjects = [list(chunk) for chunk in subjects]
+        subjects = get_all_subjects(dataset)
+        cut_point = int(len(subjects) * 0.9)
+        return subjects[:cut_point], subjects[cut_point:-2], ["|second_to_last_subject_id|", "|last_subject_it|"]
 ```
 ## X. Run the training
 ### Few notes before running the training:
